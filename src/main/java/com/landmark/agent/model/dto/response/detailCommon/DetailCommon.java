@@ -3,7 +3,6 @@ package com.landmark.agent.model.dto.response.detailCommon;
 import com.landmark.agent.utils.StaticHelper;
 import lombok.Data;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 @Data
@@ -12,9 +11,9 @@ public class DetailCommon {
     private int contentId;              // 콘텐츠 id
     private int contentTypeId;          // 콘텐츠타입 id
     private int bookTour;               // 교과서 속 여행지 여부
-    private BigInteger createdTime;     // 등록일
+    private Long createdTime;     // 등록일
     private String homepage;            // 홈페이지 주소
-    private BigInteger modifiedTime;    // 수정일
+    private Long modifiedTime;    // 수정일
     private String tel;                 // 전화번호
     private String telName;             // 전화번호명
     private String title;               // 제목
@@ -34,19 +33,11 @@ public class DetailCommon {
     private String overview;            // 개요
 
     public Date getCreatedTime() {
-        return createdTime != null ? StaticHelper.intToDate(createdTime, "yyyyMMddHHmmss") : null;
-    }
-
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = StaticHelper.dateToBigInteger(createdTime, "yyyyMMddHHmmss");
+        return createdTime != null ? StaticHelper.longToDate(createdTime, "yyyyMMddHHmmSS") : null;
     }
 
     public Date getModifiedTime() {
-        return modifiedTime != null ? StaticHelper.intToDate(modifiedTime, "yyyyMMddHHmmss") : null;
-    }
-
-    public void setModifiedTime(Date modifiedTime) {
-        this.modifiedTime = StaticHelper.dateToBigInteger(modifiedTime, "yyyyMMddHHmmss");
+        return modifiedTime != null ? StaticHelper.longToDate(modifiedTime, "yyyyMMddHHmmSS") : null;
     }
 
 }

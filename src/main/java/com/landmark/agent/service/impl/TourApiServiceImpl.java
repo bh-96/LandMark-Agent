@@ -92,15 +92,15 @@ public class TourApiServiceImpl extends LoggerUtils implements TourApiService {
             tourApiRequest.setArrange("D"); // 생성일자 순으로 정렬
             AreaBasedListResponse areaBasedListResponse = areaBasedList(1, 1, tourApiRequest);
 
-            // 1. 레디스에 저장된 전날 total count 와 당일의 total count 를 조회 후 차이 나는 개수 만큼 디비에 추가 저장한다.
             int todayTotalCount = areaBasedListResponse.getPageInfo() != null ? areaBasedListResponse.getPageInfo().getTotalCount() : 0;
             int yesterdayTotalCount = getYesterdayTotalCount();
             int addCount = todayTotalCount - yesterdayTotalCount;
 
-            if (addCount > 0) {
-                // 레디스에 totalCount 저장
-                saveTodayTotalCount(todayTotalCount);
+            // 1. 해당 일자의 total count 를 레디스에 저장한다.
+            saveTodayTotalCount(todayTotalCount);
 
+            // 2. 레디스에 저장된 전날 total count 와 당일의 total count 를 조회 후 차이 나는 개수 만큼 디비에 추가 저장한다.
+            if (addCount > 0) {
                 TourApiRequest todayTourApiRequest = new TourApiRequest();
                 todayTourApiRequest.setListYN("Y");
                 todayTourApiRequest.setArrange("D"); // 생성일자 순으로 정렬
@@ -139,8 +139,6 @@ public class TourApiServiceImpl extends LoggerUtils implements TourApiService {
         }
 
         if (saveCount > 0) {
-            // 2. 해당 일자의 total count 를 레디스에 저장한다.
-            saveTodayTotalCount(saveCount);
             logger.info("saveTourInfoFromTourAPI count = " + saveCount);
         }
 
